@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain_suffix": [
+        "clash.razord.top",
+        "yacd.metacubex.one",
+        "yacd.haishan.me",
+        "d.metacubex.one",
+        "kicre.top",
+        "wttr.in",
+        "zaimanhua.com",
+        "folo.is",
+        "follow.is",
+        "saduck.top",
+        "aihubmix.com"
+      ]
+    }
+  ]
+}
