@@ -18,6 +18,9 @@
         "cherryin.net",
         "astrbot.app",
         "xinjianya.top"
+      ],
+      "ip_cidr": [
+        "149.104.27.157"
       ]
     }
   ]
