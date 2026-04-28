@@ -1,0 +1,78 @@
+name: 编译规则集
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.json'
+  workflow_dispatch:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 安装 sing-box
+        run: |
+          sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sing-box.asc
+          echo "deb [signed-by=/etc/apt/keyrings/sing-box.asc] https://deb.sing-box.app stable main" | sudo tee /etc/apt/sources.list.d/sing-box.list
+          sudo apt-get update
+          sudo apt-get install -y sing-box
+          sing-box version
+
+      - name: 找出需要编译的 JSON 文件
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # 手动触发：编译所有 JSON 文件
+            files=$(find . -name '*.json' -not -path './.git/*' | sort)
+          else
+            # Push 触发：只编译本次变更的 JSON 文件
+            files=$(git diff --name-only --diff-filter=ACMR ${{ github.event.before }} ${{ github.sha }} -- '*.json' | sort)
+          fi
+
+          # 筛选真实文件的绝对路径
+          resolved=""
+          for f in $files; do
+            if [ -f "$f" ]; then
+              resolved="$resolved $f"
+            fi
+          done
+
+          echo "files=$resolved" >> "$GITHUB_OUTPUT"
+          echo "count=$(echo $resolved | wc -w)" >> "$GITHUB_OUTPUT"
+
+          if [ -z "$resolved" ]; then
+            echo "没有需要编译的 JSON 文件，跳过。"
+          else
+            echo "待编译文件:"
+            echo "$resolved"
+          fi
+
+      - name: 编译 JSON → SRS
+        if: steps.changed.outputs.count > 0
+        run: |
+          for file in ${{ steps.changed.outputs.files }}; do
+            echo "::group::编译 $file"
+            sing-box rule-set compile "$file"
+            echo "::endgroup::"
+          done
+
+      - name: 提交 SRS 文件
+        if: steps.changed.outputs.count > 0
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add '*.srs'
+          if git diff --cached --quiet; then
+            echo "SRS 文件无变化，跳过提交。"
+          else
+            git commit -m "chore: 自动编译规则集 [skip ci]"
+            git push
+          fi
