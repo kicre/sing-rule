@@ -21,6 +21,10 @@
       ],
       "ip_cidr": [
         "149.104.27.157"
+      ],
+      "package_name": [
+        "com.wwwscn.yuexingbao",
+        "com.maidu.gkld"
       ]
     }
   ]
