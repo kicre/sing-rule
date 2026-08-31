@@ -9,8 +9,7 @@
           "domain": [
             "www.uhdnow.com",
             "smart.uhdnow.com",
-            "speed.uhdnow.com",
-            "uhdnow.online"
+            "speed.uhdnow.com"
           ],
           "domain_suffix": [
             "clash.razord.top",
@@ -28,6 +27,7 @@
             "cherryin.net",
             "astrbot.app",
             "xinjianya.top",
+            "uhdnow.online",
             "gmx.com"
           ],
           "ip_cidr": [
