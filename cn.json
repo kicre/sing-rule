@@ -6,6 +6,12 @@
       "mode": "or",
       "rules": [
         {
+          "domain": [
+            "www.uhdnow.com",
+            "smart.uhdnow.com",
+            "speed.uhdnow.com",
+            "uhdnow.online"
+          ],
           "domain_suffix": [
             "clash.razord.top",
             "yacd.metacubex.one",
@@ -22,10 +28,6 @@
             "cherryin.net",
             "astrbot.app",
             "xinjianya.top",
-            "www.uhdnow.com",
-            "smart.uhdnow.com",
-            "speed.uhdnow.com",
-            "uhdnow.online",
             "gmx.com"
           ],
           "ip_cidr": [
