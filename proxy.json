@@ -2,13 +2,10 @@
   "version": 3,
   "rules": [
     {
-        {
-          "domain_suffix": [
-            "v1.uhdnow.com",
-            "v1-vod1.uhdnow.com",
-            "v2-vod2.uhdnow.com"
-          ]
-        }
+      "domain_suffix": [
+        "v1.uhdnow.com",
+        "v1-vod1.uhdnow.com",
+        "v2-vod2.uhdnow.com"
       ]
     }
   ]
